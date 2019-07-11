@@ -4,6 +4,7 @@ import { View, Text, Button, TextInput, StyleSheet } from 'react-native'
 import firebaseSvc from '../FirebaseSvc'
 
 const Login = (props) => {
+  const [name, setName] = useState('Mr Leo')
   const [email, setEmail] = useState('leo@gmail.com')
   const [password, setPassword] = useState('llllll')
 
@@ -15,8 +16,16 @@ const Login = (props) => {
     firebaseSvc.login(user, loginSuccess, loginFailed)
   }
 
-  const loginSuccess = () => {
-    props.navigation.navigate('Chat', { email })
+  const loginSuccess = async () => {
+    const currentUser = firebaseSvc.getCurrentUser()
+    await currentUser.updateProfile({
+      displayName: name,
+    })
+
+    props.navigation.navigate('Chat', {
+      email,
+      name,
+    })
   }
 
   const loginFailed = () => {
@@ -25,34 +34,52 @@ const Login = (props) => {
 
   return (
     <View>
-      <Text>Login screen</Text>
+      <Text style={styles.title}>Tên</Text>
+      <TextInput
+        value={name}
+        style={styles.input}
+        onChangeText={value => setName(value)}
+      />
+      <Text style={styles.title}>Email</Text>
       <TextInput
         value={email}
-        style={styles.emailInput}
+        style={styles.input}
         onChangeText={value => setEmail(value)}
       />
+      <Text style={styles.title}>Mật khẩu</Text>
       <TextInput
         value={password}
-        style={styles.emailInput}
+        style={styles.input}
         onChangeText={value => setPassword(value)}
         secureTextEntry
       />
-      <Button
-        title="Navigate to Chat"
-        onPress={onPressLogin}
-      />
+      <View style={styles.loginButton}>
+        <Button
+          title="Đăng nhập"
+          onPress={onPressLogin}
+        />
+      </View>
     </View>
   )
 }
 
 const offset = 24
 const styles = StyleSheet.create({
-  emailInput: {
+  input: {
     height: offset * 2,
-    margin: offset,
-    paddingHorizontal: offset,
+    marginTop: offset/3,
+    marginHorizontal: offset,
+    paddingHorizontal: offset - 10,
     borderColor: '#111111',
     borderWidth: 1,
+  },
+  title: {
+    marginTop: offset,
+    marginLeft: offset,
+    fontSize: offset - 2,
+  },
+  loginButton: {
+    marginTop: offset,
   },
 })
 

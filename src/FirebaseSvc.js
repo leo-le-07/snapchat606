@@ -45,13 +45,9 @@ class FirebaseSvc {
       .limit(50)
   }
 
-  getUser = () => {
-    const currentUser = firebase.auth().currentUser
-    return {
-      _id: currentUser.uid,
-      email: currentUser.email,
-    }
-  }
+  getCurrentUser = () => (
+    firebase.auth().currentUser
+  )
 }
 
 const firebaseSvc = new FirebaseSvc()

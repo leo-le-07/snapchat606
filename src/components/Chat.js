@@ -5,13 +5,13 @@ import firebaseSvc from '../FirebaseSvc'
 
 class Chat extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('email'),
+    title: navigation.getParam('name'),
   })
 
   constructor(props) {
     super(props)
 
-    this.currentUser = firebaseSvc.getUser()
+    this.currentUser = firebaseSvc.getCurrentUser()
 
     this.state = {
       messages: []
@@ -55,7 +55,11 @@ class Chat extends React.Component {
       <GiftedChat
         onSend={this.sendMessage}
         messages={this.state.messages}
-        user={{ ...this.currentUser }}
+        user={{
+          _id: this.currentUser.uid,
+          email: this.currentUser.email,
+          name: this.currentUser.displayName,
+         }}
       />
     )
   }
