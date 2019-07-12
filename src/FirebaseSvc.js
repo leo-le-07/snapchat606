@@ -48,6 +48,15 @@ class FirebaseSvc {
   getCurrentUser = () => (
     firebase.auth().currentUser
   )
+
+  getUserName = () => {
+    console.log('get user name', this.getCurrentUser());
+    return this.getCurrentUser() ? this.getCurrentUser().displayName : null
+  }
+
+  getUserEmail = () => (
+    this.getCurrentUser() ? this.getCurrentUser().email : null
+  )
 }
 
 const firebaseSvc = new FirebaseSvc()

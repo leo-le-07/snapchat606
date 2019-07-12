@@ -7,6 +7,7 @@ import {
 
 import AuthLoadingScreen from './screens/AuthLoadingScreen'
 import LoginScreen from './screens/LoginScreen'
+import IntroductionScreen from './screens/IntroductionScreen'
 import ChatScreen from './screens/ChatScreen'
 import MeScreen from './screens/MeScreen'
 
@@ -14,9 +15,23 @@ const AuthNavigator = createStackNavigator({
   Login: LoginScreen,
 })
 
-const AppNavigator = createBottomTabNavigator({
+const ChatNavigator = createStackNavigator({
+  Introduction: { screen: IntroductionScreen },
   Chat: { screen: ChatScreen },
-  Me: { screen: MeScreen },
+})
+
+ChatNavigator.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true
+  if (navigation.state.index > 0) tabBarVisible = false
+
+  return {
+    tabBarVisible,
+  }
+}
+
+const AppNavigator = createBottomTabNavigator({
+  'Trang chủ': ChatNavigator,
+  'Cá nhân': MeScreen,
 })
 
 const AppContainer = createAppContainer(createSwitchNavigator(

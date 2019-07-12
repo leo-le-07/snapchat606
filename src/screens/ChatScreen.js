@@ -5,7 +5,7 @@ import firebaseSvc from '../FirebaseSvc'
 
 class ChatScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('name'),
+    title: firebaseSvc.getUserName(),
   })
 
   constructor(props) {

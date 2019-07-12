@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  StyleSheet,
+  AsyncStorage,
+} from 'react-native'
 
 import firebaseSvc from '../FirebaseSvc'
+import { OFFSET } from '../utils/constants'
 
 const LoginScreen = (props) => {
-  const [name, setName] = useState('Mr Leo')
   const [email, setEmail] = useState('leo@gmail.com')
   const [password, setPassword] = useState('llllll')
 
@@ -18,14 +25,10 @@ const LoginScreen = (props) => {
 
   const loginSuccess = async () => {
     const currentUser = firebaseSvc.getCurrentUser()
-    await currentUser.updateProfile({
-      displayName: name,
-    })
+    const token = await currentUser.getIdToken()
+    await AsyncStorage.setItem('userToken', token)
 
-    props.navigation.navigate('Chat', {
-      email,
-      name,
-    })
+    props.navigation.navigate('App')
   }
 
   const loginFailed = () => {
@@ -34,12 +37,6 @@ const LoginScreen = (props) => {
 
   return (
     <View>
-      <Text style={styles.title}>Tên</Text>
-      <TextInput
-        value={name}
-        style={styles.input}
-        onChangeText={value => setName(value)}
-      />
       <Text style={styles.title}>Email</Text>
       <TextInput
         value={email}
@@ -63,23 +60,22 @@ const LoginScreen = (props) => {
   )
 }
 
-const offset = 24
 const styles = StyleSheet.create({
   input: {
-    height: offset * 2,
-    marginTop: offset/3,
-    marginHorizontal: offset,
-    paddingHorizontal: offset - 10,
+    height: OFFSET * 2,
+    marginTop: OFFSET/3,
+    marginHorizontal: OFFSET,
+    paddingHorizontal: OFFSET - 10,
     borderColor: '#111111',
     borderWidth: 1,
   },
   title: {
-    marginTop: offset,
-    marginLeft: offset,
-    fontSize: offset - 2,
+    marginTop: OFFSET,
+    marginLeft: OFFSET,
+    fontSize: OFFSET - 2,
   },
   loginButton: {
-    marginTop: offset,
+    marginTop: OFFSET,
   },
 })
 
