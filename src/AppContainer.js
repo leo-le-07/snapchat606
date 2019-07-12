@@ -1,13 +1,33 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation'
+import {
+  createAppContainer,
+  createStackNavigator,
+  createSwitchNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation'
 
-import Chat from './components/Chat'
-import Login from './components/Login'
+import AuthLoadingScreen from './screens/AuthLoadingScreen'
+import LoginScreen from './screens/LoginScreen'
+import ChatScreen from './screens/ChatScreen'
+import MeScreen from './screens/MeScreen'
 
-const AppNavigator = createStackNavigator({
-  Login: { screen: Login },
-  Chat: { screen: Chat },
+const AuthNavigator = createStackNavigator({
+  Login: LoginScreen,
 })
 
-const AppContainer = createAppContainer(AppNavigator)
+const AppNavigator = createBottomTabNavigator({
+  Chat: { screen: ChatScreen },
+  Me: { screen: MeScreen },
+})
+
+const AppContainer = createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppNavigator,
+    Auth: AuthNavigator,
+  },
+  {
+    initialRouteName: 'AuthLoading',
+  }
+))
 
 export default AppContainer

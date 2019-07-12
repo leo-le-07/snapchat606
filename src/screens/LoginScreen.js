@@ -3,7 +3,7 @@ import { View, Text, Button, TextInput, StyleSheet } from 'react-native'
 
 import firebaseSvc from '../FirebaseSvc'
 
-const Login = (props) => {
+const LoginScreen = (props) => {
   const [name, setName] = useState('Mr Leo')
   const [email, setEmail] = useState('leo@gmail.com')
   const [password, setPassword] = useState('llllll')
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Login
+export default LoginScreen

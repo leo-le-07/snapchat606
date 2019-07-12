@@ -3,7 +3,7 @@ import { GiftedChat } from 'react-native-gifted-chat'
 
 import firebaseSvc from '../FirebaseSvc'
 
-class Chat extends React.Component {
+class ChatScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('name'),
   })
@@ -65,4 +65,4 @@ class Chat extends React.Component {
   }
 }
 
-export default Chat
+export default ChatScreen
